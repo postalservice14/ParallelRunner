@@ -311,11 +311,16 @@ class ParallelRunnerCommand extends BehatCommand
 
     /**
      * Creates a special file in test directory, which contains an exception message.
+     *
+     * @param \Exception $exception
      */
-    function exceptionHandler($exception)
+    function exceptionHandler(\Exception $exception)
     {
         $output_file = $this->getTestDir() . '/results/' . $this->workerID . '.exception';
-        file_put_contents($output_file, "Worker exception (workerID={$this->workerID}): " . $exception->getMessage());
+        file_put_contents(
+            $output_file,
+            "Worker exception (workerID={$this->workerID}): " . $exception->getMessage() . ': ' . $exception->getTrace()
+        );
     }
 
     /**
